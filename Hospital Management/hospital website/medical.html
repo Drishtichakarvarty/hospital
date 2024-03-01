@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medicines</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+</head>
+<body>
+  <header>
+    <div class="logo"><img src="images/logo3.png" alt=""></div>
+
+    <nav class="navbar">
+        <a href="#Home">Home</a>
+        <a href="#About">About</a>
+        <a href="#Service">Service</a>
+        <a href="#Gallery">Gallery</a>
+        <a href="#Blog">Blog</a>
+        <a href="#Contact">Contact</a>
+    </nav>
+
+    <div class="right-icons">
+        <div class="cart-icon" id="cartIcon">
+            <a href="cart.html">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </a>
+        </div>
+        <div class="btn">Make Appointment</div>
+    </div>
+</header>
+
+<div class="background-container">
+  <div class="search-container">
+    <input type="text" class="form-control" placeholder="Search Medicines" id="searchMedicine">
+  </div>
+</div>
+<div class="background-medicines">
+<div class="container">
+  <div class="row" id="medicines">
+    <!-- Medicine cards will be dynamically added here -->
+  </div>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  // Sample medicine data
+  const medicines = [
+    { id: 1, name: "Medicine 1", price: 2000, discount: 0.05, image: "images/medicine1.png", description: "Description of Medicine 1" },
+    { id: 2, name: "Medicine 2", price: 1025, discount: 0.08, image: "images/medicine2.png", description: "Description of Medicine 2" },
+    { id: 3, name: "Medicine 3", price: 2230, discount: 0.03, image: "images/medicine3.png", description: "Description of Medicine 3" },
+    { id: 4, name: "Medicine 4", price: 210, discount: 0.02, image: "images/medicine4.png", description: "Description of Medicine 4" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 6, name: "Medicine 6", price: 210, discount: 0.02, image: "images/medicine6.png", description: "Description of Medicine 6" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+    { id: 5, name: "Medicine 5", price: 210, discount: 0.02, image: "images/medicine5.png", description: "Description of Medicine 5" },
+
+    // Add more medicines as needed
+  ];
+
+  // Function to add medicine to cart
+  function addToCart(id) {
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    const existingItem = cartItems.find(item => item.id === id);
+    if (existingItem) {
+      // If medicine already exists in cart, update its quantity
+      existingItem.quantity += 1;
+    } else {
+      // Otherwise, add the medicine to cart with quantity 1
+      const medicine = medicines.find(item => item.id === id);
+      if (medicine) {
+        medicine.quantity = 1;
+        cartItems.push(medicine);
+      }
+    }
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    updateCartCount();
+    updateCartTotal();
+  }
+
+  // Function to update cart count
+  function updateCartCount() {
+    const cartCount = document.getElementById("cartCount");
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    // Calculate total quantity by summing up quantities of all items
+    const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+    cartCount.innerText = totalQuantity;
+  }
+
+  
+  // Function to update cart total
+  function updateCartTotal() {
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    let total = 0;
+    cartItems.forEach(item => {
+      total += (item.price * item.quantity) * (1 - item.discount); // Apply discount
+    });
+    document.getElementById("cartTotal").innerText = `₹${total.toFixed(2)}`;
+  }
+
+  // Populate medicine cards
+  const medicinesContainer = document.getElementById("medicines");
+  medicines.forEach(medicine => {
+    const medicineCard = document.createElement("div");
+    medicineCard.classList.add("col-lg-4", "col-md-6", "mb-4", "medicine-card"); // Added medicine-card class
+    medicineCard.innerHTML = `
+      <div class="card">
+        <img src="${medicine.image}" class="card-img-top" alt="${medicine.name}">
+        <div class="card-body">
+          <h5 class="card-title">${medicine.name}</h5>
+          <p class="card-text">$${medicine.price} - ${medicine.discount * 100}%off</p>
+          <button class="btn btn-primary " onclick="addToCart(${medicine.id})">Add to Cart</button>
+        </div>
+      </div>`;
+    medicinesContainer.appendChild(medicineCard);
+  });
+
+  // Update cart count and total when the page loads
+  updateCartCount();
+  updateCartTotal();
+ 
+  // Function to add medicine to cart
+  function addToCart(id) {
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    const existingItem = cartItems.find(item => item.id === id);
+    if (existingItem) {
+      // If medicine already exists in cart, show alert
+      alert("This medicine is already in your cart!");
+    } else {
+      // Otherwise, add the medicine to cart with quantity 1
+      const medicine = medicines.find(item => item.id === id);
+      if (medicine) {
+        medicine.quantity = 1;
+        cartItems.push(medicine);
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        updateCartCount();
+        updateCartTotal();
+      }
+    }
+  }
+</script>
+ <script src="script.js"></script>
+</body>
+</html>

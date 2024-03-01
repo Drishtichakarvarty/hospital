@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <style>
+.small-image {
+      max-width: 200px; /* Adjust the max-width as needed */
+      height: auto;
+      cursor: pointer;
+    }
+    .container{
+      max-width:1400px;
+      margin: 0 auto; /* Center the container */
+    }
+  .col-md-7 {
+  font-size: 18px; /* Adjust the font size as needed */
+  margin-top: 20px; /* Adjust top margin */
+  margin-bottom: 20px; /* Adjust bottom margin */
+  padding: 20px; /* Add padding */
+  
+}
+.col-md-4 {
+  font-size: 15px; /* Adjust the font size as needed */
+  margin-top: 80px; /* Adjust top margin */
+  margin-bottom: 20px; /* Adjust bottom margin */
+  margin-left: 100px; /* Adjust left margin */
+  padding: 20px; /* Add padding */
+}
+    .btn {
+      margin-top: 10px; /* Add margin to the button */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="cartItemsContainer">
+      <div class="row">
+        <div class="col-md-7">
+          <div id="cartItems">
+            <!-- Cart items will be dynamically added here -->
+          </div>
+        </div>
+        <div class="col-md-4">
+          <!-- Cart breakdown -->
+          <div class="card mt-4">
+            <div class="card-body">
+              <h5 class="card-title">Cart Breakdown</h5>
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <th scope="row">Cart Total</th>
+                    <td id="cartTotal">₹0</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Discount on MRP</th>
+                    <td id="discountOnMRP">- ₹0</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Delivery Charges</th>
+                    <td id="deliveryCharges">+ Login to view charges</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">To Pay</th>
+                    <td id="toPay">₹0</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">You saved</th>
+                    <td id="youSaved">₹0</td>
+                  </tr>
+                </tbody>
+              </table>
+              <button class="btn btn-primary">PROCEED</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+ // Function to display cart items
+function displayCartItems() {
+    const cartItemsContainer = document.getElementById("cartItems");
+    cartItemsContainer.innerHTML = "";
+    
+    // Get cart items from localStorage
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+    // Update cart count
+    document.getElementById("cartCount").innerText = cartItems.length;
+
+    // Display each cart item
+    cartItems.forEach(item => {
+        // Code to display each cart item...
+    });
+}
+
+
+  // Function to remove a medicine from the cart
+  function removeFromCart(id) {
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    // Find index of the medicine in the cart
+    const index = cartItems.findIndex(item => item.id === id);
+    if (index !== -1) {
+      // Remove the medicine from the cartItems array
+      cartItems.splice(index, 1);
+      // Update localStorage
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+      // Re-display cart items
+      displayCartItems();
+      updateCartTotal();
+    }
+  }
+
+  // Function to increase quantity of a medicine
+  function increaseQuantity(id) {
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    const index = cartItems.findIndex(item => item.id === id);
+    if (index !== -1) {
+      cartItems[index].quantity++;
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+      displayCartItems();
+      updateCartTotal();
+    }
+  }
+
+  // Function to decrease quantity of a medicine
+  function decreaseQuantity(id) {
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    const index = cartItems.findIndex(item => item.id === id);
+    if (index !== -1 && cartItems[index].quantity > 1) {
+      cartItems[index].quantity--;
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+      displayCartItems();
+      updateCartTotal();
+    }
+  }
+
+  // Function to toggle image size
+  function toggleImageSize(imageElement) {
+    if (imageElement.classList.contains('small-image')) {
+      imageElement.classList.remove('small-image');
+    } else {
+      imageElement.classList.add('small-image');
+    }
+  }
+
+  // Function to display cart items
+  function displayCartItems() {
+    const cartItemsContainer = document.getElementById("cartItems");
+    cartItemsContainer.innerHTML = "";
+    
+    // Get cart items from localStorage
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+    // Display each cart item
+    cartItems.forEach(item => {
+      const card = document.createElement("div");
+      card.classList.add("card");
+      const cardBody = document.createElement("div");
+      cardBody.classList.add("card-body");
+      const cardTitle = document.createElement("h5");
+      cardTitle.classList.add("card-title");
+      cardTitle.innerText = item.name;
+      const cardText = document.createElement("p");
+      cardText.classList.add("card-text");
+      cardText.innerHTML = `Price: $${(item.price * item.quantity * (1 - item.discount)).toFixed(2)}<br>Description: ${item.description}<br>Quantity: ${item.quantity}`;
+      const cardImage = document.createElement("img");
+      cardImage.src = item.image;
+      cardImage.classList.add("card-img-top", "small-image");
+      cardImage.setAttribute('onclick', 'toggleImageSize(this)');
+
+      // Add remove button
+      const removeButton = document.createElement("button");
+      removeButton.classList.add("btn", "btn-danger", "mr-2");
+      removeButton.innerText = "Remove";
+      removeButton.onclick = function() {
+        removeFromCart(item.id);
+      };
+
+      // Add increase quantity button
+      const increaseButton = document.createElement("button");
+      increaseButton.classList.add("btn", "btn-success", "mr-2");
+      increaseButton.innerText = "+";
+      increaseButton.onclick = function() {
+        increaseQuantity(item.id);
+      };
+
+      // Add decrease quantity button
+      const decreaseButton = document.createElement("button");
+      decreaseButton.classList.add("btn", "btn-warning");
+      decreaseButton.innerText = "-";
+      decreaseButton.onclick = function() {
+        decreaseQuantity(item.id);
+      };
+
+      cardBody.appendChild(cardTitle);
+      cardBody.appendChild(cardText);
+      cardBody.appendChild(removeButton);
+      cardBody.appendChild(increaseButton);
+      cardBody.appendChild(decreaseButton);
+      card.appendChild(cardImage);
+      card.appendChild(cardBody);
+      cartItemsContainer.appendChild(card);
+    });
+  }
+
+  // Function to update cart total
+  function updateCartTotal() {
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    let cartTotal = 0;
+    cartItems.forEach(item => {
+      cartTotal += item.price * item.quantity * (1 - item.discount);
+    });
+    document.getElementById("cartTotal").innerText = `Total: $${cartTotal.toFixed(2)}`;
+  }
+
+  // Display cart items when the page loads
+  displayCartItems();
+  updateCartTotal();
+
+ // Function to update cart total
+function updateCartTotal() {
+  let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+  let cartTotal = 0;
+  let totalDiscount = 0; // Variable to store the total discount
+  cartItems.forEach(item => {
+    // Calculate item total before discount
+    let itemTotal = item.price * item.quantity;
+
+    // Calculate discount amount for the item
+    let discountAmount = itemTotal * item.discount;
+
+    // Update the total discount
+    totalDiscount += discountAmount;
+
+    // Calculate item total after discount
+    let itemTotalAfterDiscount = itemTotal - discountAmount;
+
+    // Add item total after discount to the cart total
+    cartTotal += itemTotalAfterDiscount;
+  });
+
+  // Example value for delivery charges
+  const deliveryCharges = 50; // Example delivery charges
+
+  // Calculate total to pay after discount and delivery charges
+  let toPay = cartTotal + deliveryCharges - totalDiscount; // Subtract total discount from cart total
+  
+  // Calculate savings
+  let youSaved = totalDiscount;
+
+  // Display cart breakdown
+  document.getElementById("cartTotal").innerText = `Total: ₹${cartTotal.toFixed(2)}`;
+  document.getElementById("discountOnMRP").innerText = `- ₹${totalDiscount.toFixed(2)}`;
+  document.getElementById("deliveryCharges").innerText = `+ ₹${deliveryCharges.toFixed(2)}`;
+  document.getElementById("toPay").innerText = `Total to Pay: ₹${toPay.toFixed(2)}`;
+  document.getElementById("youSaved").innerText = `You Saved: ₹${youSaved.toFixed(2)}`;
+}
+</script>
+<script src="script.js"></script>
+</body>
+</html>
